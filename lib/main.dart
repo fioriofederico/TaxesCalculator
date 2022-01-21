@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
@@ -16,11 +17,16 @@ class MyApp extends StatelessWidget{
 
     List<Widget> body = <Widget>[
       InputValue(),
+      Container(
+        margin: const EdgeInsets.only(left:8.0),
+        child: RowButton(),
+      ),
       Padding(padding: const EdgeInsetsDirectional.only(top:15.0),
           child:RowButton()),
       Padding(padding: const EdgeInsetsDirectional.only(top:12.0),
           child: ColumnValue(),),
       RowOnBottom(),
+      ButtonOnBottom(),
       /*Box(),
       RedBox(),
       GreenBox(),
@@ -227,11 +233,39 @@ class RowOnBottom extends StatelessWidget{
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.max,
       children: [
-        ElevatedButton(
-          onPressed: () {},
-            child: const Text('Enabled'),
-        ),],
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Enabled'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ButtonOnBottom extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Align(
+          alignment: Alignment.bottomLeft,
+          child: Row(
+            children: [
+              Flexible(
+                fit: FlexFit.tight,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('CALCOLO IVA'),
+                ),
+              )
+            ],
+          ),
+        ),
     );
   }
 }
