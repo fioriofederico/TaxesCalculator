@@ -1,38 +1,48 @@
-import 'dart:async';
+
 import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:my_app/widget_button.dart';
+enum TaxRate { tax22, tax10, tax4 }
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
-  const MyApp({Key? key}): super(key: key);
+class MyApp extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends  State<MyApp>{
+  var selectedTax = TaxRate.tax22;
+  var taxValue = 0.0;
+
+  void changeValue(String value){
+    setState(() {
+      taxValue = double.parse(value);
+    });
+  }
+
+  void onChaneTaxRate(TaxRate taxRate){
+    setState(() {
+      selectedTax = taxRate;
+    });
+  }
+
+  bool isSelected(TaxRate taxRate){
+    return taxRate == selectedTax;
+  }
+
+  var _userInput = "";
 
   @override
   Widget build(BuildContext context){
 
-    List<Widget> body = <Widget>[
-      InputValue(),
-      Container(
-        margin: const EdgeInsets.only(left:8.0),
-        child: RowButton(),
-      ),
-      Padding(padding: const EdgeInsetsDirectional.only(top:15.0),
-          child:RowButton()),
-      Padding(padding: const EdgeInsetsDirectional.only(top:12.0),
-          child: ColumnValue(),),
-      RowOnBottom(),
-      ButtonOnBottom(),
-      /*Box(),
-      RedBox(),
-      GreenBox(),
-      BlueBox(),*/
-
-    ];
     return MaterialApp(
       title: 'Welcome to Flutter',
       home: Scaffold(
@@ -44,228 +54,99 @@ class MyApp extends StatelessWidget{
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: body,
-            ),
-          )
-      ),
-    );
-  }
-}
-class RedBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.red,
-        border: Border.all(),
-      ),
-    );
-  }
-}
-
-class BlueBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 150,
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        border: Border.all(),
-      ),
-    );
-  }
-}
-
-class GreenBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 250,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.green,
-        border: Border.all(),
-      ),
-    );
-  }
-}
-
-class Box extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Row(
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.account_circle, size: 50),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Flutter McFlutter',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Text('Experienced App Developer'),
-            BoxAdd(),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class RowButton extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ButtonActive(),
-        ButtonDisactive(),
-        ButtonDisactive(),
-      ],
-    );
-  }
-}
-
-class BoxAdd extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        Text('123 Main Street',
-          style: TextStyle(
-            fontSize: 30,
-            fontFamily: 'Futura',
-            color: Colors.blue,
-          )
-        )
-      ],
-    );
-  }
-}
-
-class InputValue extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: const InputDecoration(
-        border: UnderlineInputBorder(),
-        labelText: 'Inserisci Importo',
-      ),
-    );
-  }
-}
-
-class ButtonActive extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: const Text('Enabled'),
-    );
-  }
-}
-
-class ButtonDisactive extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return const ElevatedButton(
-      onPressed: null,
-      child: Text('Disabled'),
-    );
-  }
-}
-
-class ColumnValue extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(padding: EdgeInsetsDirectional.only(top:8.0, bottom: 8.0),
-          child: Row(
-            children: const [
-              Text('Importo senza IVA',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Futura',
-                  ))
-            ],
-          ),
-        ),
-        Padding(padding: EdgeInsetsDirectional.only(top:8.0, bottom: 8.0),
-          child: Row(
-            children: const [
-              Text('IVA',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Futura',
-                  ))
-            ],
-          ),
-        ),Padding(padding: EdgeInsetsDirectional.only(top:8.0, bottom: 8.0),
-          child: Row(
-            children: const [
-              Text('totale è',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Futura',
-                  ))
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class RowOnBottom extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Row(
-          children: [
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Enabled'),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class ButtonOnBottom extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Row(
-            children: [
-              Flexible(
-                fit: FlexFit.tight,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('CALCOLO IVA'),
+              children: [
+                TextFormField(onChanged: (String text){
+                  setState(() {
+                    _userInput = text;
+                  });
+                },
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Inserisci Importo',
+                  ),
                 ),
-              )
-            ],
-          ),
-        ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left:8.0),
+                      child:
+                      Row(
+                        children: [
+                          Padding(padding: EdgeInsets.all(2.0),child: ButtonActive("22%",() {
+                            onChaneTaxRate(TaxRate.tax22);
+                          }, selectedTax == TaxRate.tax22)),
+                          Padding(padding: EdgeInsets.all(2.0),child: ButtonActive("10%",() {
+                            onChaneTaxRate(TaxRate.tax10);
+                          }, selectedTax == TaxRate.tax10)),
+                          Padding(padding: EdgeInsets.all(2.0),child: ButtonActive("4%",() {
+                            onChaneTaxRate(TaxRate.tax4);
+                          }, selectedTax == TaxRate.tax4)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Padding(padding: EdgeInsetsDirectional.only(top:8.0, bottom: 8.0),
+                      child: Row(
+                        children: [
+                          Text('Importo senza IVA $_userInput',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'Futura',
+                              ))
+                        ],
+                      ),
+                    ),
+                    Padding(padding: EdgeInsetsDirectional.only(top:8.0, bottom: 8.0),
+                      child: Row(
+                        children: const [
+                          Text('IVA',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'Futura',
+                              ))
+                        ],
+                      ),
+                    ),Padding(padding: EdgeInsetsDirectional.only(top:8.0, bottom: 8.0),
+                      child: Row(
+                        children: const [
+                          Text('totale è ',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'Futura',
+                              ))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Row(
+                      children: [
+                        Flexible(
+                          fit: FlexFit.tight,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('CALCOLO IVA'),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+
+            ),
+          )
+      ),
     );
   }
 }
