@@ -4,8 +4,6 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:my_app/widget_button.dart';
-
-
 enum TaxRate { tax22, tax10, tax4 }
 
 
@@ -23,6 +21,7 @@ class MyApp extends StatefulWidget{
 class _MyAppState extends  State<MyApp>{
   var selectedTax = TaxRate.tax22;
   var taxValue = 0.0;
+  String? error;
 
   void changeValue(String value){
     setState(() {
@@ -59,15 +58,17 @@ class _MyAppState extends  State<MyApp>{
               children: [
                 TextFormField(onChanged: (String text){
                   setState(() {
+                    error = (double.tryParse(text) == null)? "Inserisci un numero valido" : null;
                     _userInput = text;
                   });
+
                 },
 
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'Inserisci Importo',
-                    errorText: 'Inserire un numero valido',
+                    errorText: error,
                   ),
                 ),
                 Row(

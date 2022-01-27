@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 class ButtonActive extends StatelessWidget{
 
-  static const String LuxuryTax = "22%";
-  static const String FoodTax = "10%";
-  static const String AgriTax = "4%";
-
   String rate;
   bool enable;
   Function()? onButtonPressed;
