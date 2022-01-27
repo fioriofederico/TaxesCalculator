@@ -60,6 +60,7 @@ class _MyAppState extends  State<MyApp>{
                     _userInput = text;
                   });
                 },
+
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
@@ -78,13 +79,13 @@ class _MyAppState extends  State<MyApp>{
                         children: [
                           Padding(padding: EdgeInsets.all(2.0),child: ButtonActive("22%",() {
                             onChaneTaxRate(TaxRate.tax22);
-                          }, selectedTax == TaxRate.tax22)),
+                          }, isSelected(TaxRate.tax22))),
                           Padding(padding: EdgeInsets.all(2.0),child: ButtonActive("10%",() {
                             onChaneTaxRate(TaxRate.tax10);
-                          }, selectedTax == TaxRate.tax10)),
+                          }, isSelected(TaxRate.tax10))),
                           Padding(padding: EdgeInsets.all(2.0),child: ButtonActive("4%",() {
                             onChaneTaxRate(TaxRate.tax4);
-                          }, selectedTax == TaxRate.tax4)),
+                          }, isSelected(TaxRate.tax4))),
                         ],
                       ),
                     ),

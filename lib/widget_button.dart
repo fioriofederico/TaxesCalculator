@@ -10,7 +10,7 @@ class ButtonActive extends StatelessWidget{
     return TextButton(
       onPressed: onButtonPressed,
       child: Text(rate,
-          style: state ? TextStyle(Colors.white): TextStyle(Colors.blue)),
+          style: TextStyle(color: state? Colors.white: Colors.blueGrey)),
       style: state ? TextButton.styleFrom(backgroundColor: Colors.blue) : TextButton.styleFrom(backgroundColor: null),
     );
   }
