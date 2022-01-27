@@ -4,6 +4,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:my_app/widget_button.dart';
+
+
 enum TaxRate { tax22, tax10, tax4 }
 
 
@@ -62,9 +64,10 @@ class _MyAppState extends  State<MyApp>{
                 },
 
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'Inserisci Importo',
+                    errorText: 'Inserire un numero valido',
                   ),
                 ),
                 Row(
